@@ -12,15 +12,6 @@ public class Main {
     initContacts();
     Javalin app = Javalin.create().start(7000);
 
-    app.exception(Exception.class, (error, ctx) -> {
-      List<String> errors = new ArrayList<>();
-      errors.add(error.toString());
-      ResponseJsonErrors message = new ResponseJsonErrors(errors);
-      ctx.json(message);
-    });
-
-    app.get("/", ctx -> ctx.result("Hello World"));
-
     app.get("/contact/list", ctx -> ctx.json(contacts));
 
     app.get("/contact/:name", ctx -> {

@@ -26,11 +26,12 @@ public class Main {
 
     app.post("/contact", ctx -> {
       try {
-        Validator<String> name = ctx.formParam("name", String.class);
-        Validator<String> email = ctx.formParam("email", String.class)
-          .check(_email -> _email.contains("@"), "Not a valid email address.");
+        String name = ctx.formParam("name", String.class).get();
+        String email = ctx.formParam("email", String.class)
+          .check(_email -> _email.contains("@"), "Not a valid email address.")
+          .get();
         ResponseJsonMessage response = new ResponseJsonMessage("Contact created");
-        Contact contact = new Contact(name.get(), email.get());
+        Contact contact = new Contact(name, email);
         contacts.add(contact);
         ctx.json(response);
       } catch (Exception error) {
